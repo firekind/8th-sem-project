@@ -1,0 +1,4 @@
+[submodule "src/yolov3"]
+	path = src/yolov3
+	url = git@github.com:firekind/yolov3
+	branch = eva5
