@@ -20,7 +20,6 @@ class Model(pl.LightningModule):
     def __init__(self, config, num_batches, num_classes, yolo_labels):
         super(Model, self).__init__()
         self.save_hyperparameters()
-        self.automatic_optimization = False
         self.config = config
         yolo_config = self.config.yolo_config
 
@@ -68,13 +67,12 @@ class Model(pl.LightningModule):
 
         # backward and stepping optimizer
         optimizer = self.optimizers()
-        optimizer.zero_grad()
-        self.manual_backward(loss)
+        self.manual_backward(loss, optimizer)
         if (self.yolo_trainer.calc_ni(batch_idx, self.current_epoch) % self.yolo_trainer.accumulate == 0):
-            optimizer.step()
+            self.manual_optimizer_step(optimizer)
             self.yolo_ema.update(self.yolo)
         else:
-            optimizer.step()
+            self.manual_optimizer_step(optimizer)
 
         self.log("yolo loss", loss.item(), prog_bar=True)
         metrics = {"yolo_loss": loss.item()}

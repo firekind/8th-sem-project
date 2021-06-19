@@ -1,4 +1,2 @@
-pytorch-lightning==1.3.2
-matplotlib==3.4.2
 jupyter
 git+https://github.com/firekind/athena
