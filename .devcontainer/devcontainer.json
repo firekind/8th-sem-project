@@ -3,11 +3,14 @@
     "dockerFile": "../Dockerfile",
     "runArgs": [
         "--gpus=all",
+        "--device=/dev/video0",
         "--device=/dev/nvidia0",
         "--device=/dev/nvidiactl",
         "--device=/dev/nvidia-modeset",
         "--device=/dev/nvidia-uvm",
-        "--device=/dev/nvidia-uvm-tools"
+        "--device=/dev/nvidia-uvm-tools",
+        "-e=DISPLAY=${env:DISPLAY}",
+        "-v=/tmp/.X11-unix:/tmp/.X11-unix"
     ],
     "extensions": [
         "ms-python.python"
